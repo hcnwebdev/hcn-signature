@@ -1,0 +1,134 @@
+
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+          #signature-box {
+            margin-top: 3rem;
+            padding: 2rem;
+            border: 4px solid #eee;
+          }
+          .btn-box {
+            margin-top: 1rem;
+          }
+          .sign-caption {
+            font-size: small;
+            opacity: .6;
+          }
+        </style>
+       
+    </head>
+    <body>
+      <h2>Email Signature Builder</h2>
+      <h3>Step 1</h3>
+      <p>Complete the form with your own info.</p>
+      <div class="sign_form-box">
+        <form id="sign_form">
+          <div><input id="s_name" type="text" placeholder="Your Name" name="s_name"></div>
+          <div><input id="s_title" type="text" placeholder="Your Title" name="s_title"></div>
+          <div><input id="s_phone" type="tel" placeholder="Your Phone" name="s_phone"></div>
+          <div><input id="s_email" type="email" placeholder="Your Email" name="s_email"></div>
+          <div><input id="s_linkedin" type="url" placeholder="Your LinkedIn" name="s_linkedin"><br>
+            <span id="f_response" class="sign-caption">*Leave blank for HCN LinkedIn profile</span>
+          </div>
+          <p style="line-height: 3rem; font-size: 1rem; color: orangered"></p>
+        </form>
+
+      </div>
+      <h3>Step 2</h3>
+      <p>Review your info and click "Copy Signature" button to get yours.
+      <div id="signature-box">
+        <table id="hcn_signature" style="padding-top:24px; font-family: Tahoma, Arial, sans-serif;" cellpadding="0" cellspacing="0">
+          <tbody>
+            <tr>
+              <td rowspan="5" width="194" style="vertical-align:top;"><img alt="HCN Global" src="https://www.dropbox.com/s/ngtvf4dkmslk4tk/hcn-signature-logo%402x.png?raw=1" width="194" height="143" style="color:#1D242B; font-size: 48px; display: block; max-width: 100%; font-weight: bold; height: auto;" /></td>
+              <td style="padding: 0 0 14px 12px;">
+                  <span id="s_data-name" style="color: #1D242B; font-size: 18px;  font-weight: bold; text-align:left;">Your Full Name</span><br>
+                  <span id="s_data-title" style="color: #A5A7AB; font-size: 14px; text-align:left;">Your Title</span><br><br>
+                  <span style="color: #9A1A22; font-size: 14px; line-height: 20px; text-align:left;"><strong style="color: #FF6D00; font-size: 13px;">Phone: </strong><span id="s_data-phone">+1 (555) 555-5555</span></span><br>
+                  <span style="color: #9A1A22; font-size: 14px; line-height: 20px; text-align:left;"><strong style="color: #FF6D00; font-size: 13px;">Email: </strong><span id="s_data-email">your.email@hcnmedia.com</span></span><br>
+                  <span style="color: #9A1A22; font-size: 14px; line-height: 20px; text-align:left;"><strong style="color: #FF6D00; font-size: 13px;">Links: </strong><a href="https://hcnmedia.com" target="_blank" color="#9A1A22" style="text-decoration: none; color: #9A1A22; ">hcnmedia.com</a> - <a href="https://laredhispana.org" target="_blank" color="#9A1A22" style="text-decoration: none; color: #9A1A22;">laredhispana.org</a> - <a id="s_data-linkedin" href="https://www.linkedin.com/company/hispanic-communications-network" target="_blank" color="#9A1A22" style="text-decoration: none; color: #9A1A22;">LinkedIn</a><br>
+                  
+              </td>
+            </tr>
+           
+          </tbody>
+        </table>
+      </div>
+       <div class="btn-box"><button id="js-btn-copy">Copy Signature</button></div>
+      <h3>Step 3</h3>
+      <p>Go to your email signature settings and paste.</p>
+      
+      
+      <script>
+
+        const dataName = document.getElementById('s_name'),
+              dataTitle = document.getElementById('s_title'),
+              dataPhone = document.getElementById('s_phone'),
+              dataEmail = document.getElementById('s_email'),
+              dataLinkedin = document.getElementById('s_linkedin');
+        
+        const signName = document.getElementById('s_data-name'),
+              signTitle = document.getElementById('s_data-title'),
+              signPhone = document.getElementById('s_data-phone'),
+              signEmail = document.getElementById('s_data-email'),
+              signLinkedin = document.getElementById('s_data-linkedin');
+        
+        const formResponse = document.getElementById('f_response');
+            
+        dataName.addEventListener('change', function () { signName.textContent = this.value; });
+        dataTitle.addEventListener('change', function () { signTitle.textContent = this.value; });
+        dataPhone.addEventListener('change', function () { signPhone.textContent = this.value; });
+        dataEmail.addEventListener('change', function () { signEmail.textContent = this.value; });
+        dataLinkedin.addEventListener('change', function () { 
+          if (this.checkValidity() && this.value!=null) {
+            signLinkedin.href = this.value;
+            formResponse.style.color = null;
+            formResponse.style.fontWeight = null;  
+            formResponse.textContent = "*Leave blank for HCN LinkedIn profile";
+          } else {
+            //signLinkedin.href = "https://www.linkedin.com/company/hispanic-communications-network";
+            formResponse.style.color = 'orangered'; 
+            formResponse.style.fontWeight = 'bold'; 
+            formResponse.textContent = "*Review your link or leave it blank.";
+          }
+          
+          if (!this.checkValidity() || this.value == '') { 
+            signLinkedin.href = "https://www.linkedin.com/company/hispanic-communications-network";
+          }
+           
+        });
+        
+        const copyBtn = document.getElementById('js-btn-copy');
+      
+        copyBtn.addEventListener('click', function () {
+
+          let copyContent = document.getElementById('signature-box');
+          
+          window.getSelection().removeAllRanges();
+          let range = document.createRange();
+          range.selectNode(copyContent);
+          window.getSelection().addRange(range);
+          document.execCommand('copy');
+          window.getSelection().removeAllRanges();
+          
+          copyContent.style.opacity = '0.4';
+          setTimeout(function () { copyContent.style.opacity = '1'; }, 80);
+          
+        });
+
+      </script>
+
+
+    </body>
+</html>
+
+
+
+
+
